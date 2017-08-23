@@ -9,10 +9,10 @@
         "helper"
     ],
     "main": "./jquery.helper.js",
-    "repository": {
+	"repository": {
         "type": "git",
-        "url": "https://github.com/alex-wdmg/jquery-helper.git"
-    },
+        "url": "git://github.com/alex-wdmg/jquery-helper.git"
+	},
     "bugs": {
         "url": "https://github.com/alex-wdmg/jquery-helper/issues"
     },
