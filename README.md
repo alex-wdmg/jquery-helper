@@ -5,6 +5,8 @@ A jQuery helper functions and utilities that make jQuery better and save your ti
 ## Install
 
 `$ bower install jquery-helper`
+or
+`$ npm install jquery-helper`
 
 ## Authors
 
