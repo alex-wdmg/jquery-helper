@@ -1,0 +1,15 @@
+.idea
+nbproject
+.buildpath
+.project
+.settings
+Thumbs.db
+/vendor
+composer.phar
+._*
+.DS_Store
+Icon
+phpunit.phar
+/phpunit.xml
+node_modules/*
+/.project

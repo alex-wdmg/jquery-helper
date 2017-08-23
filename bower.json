@@ -1,0 +1,26 @@
+{
+  "name": "jquery-helper",
+  "description": "A jQuery helper functions and utilities that make jQuery better and save your time.",
+  "main": "jquery.helper.js",
+  "ignore": [
+    "**/.*",
+    "LICENSE",
+    "*.json",
+    "src",
+    "*.yml",
+    "Gemfile",
+    "Gemfile.lock",
+    "*.md",
+    "bower_components",
+    "node_modules",
+    "test",
+    "composer.json",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "authors": [
+    "W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com>"
+  ],
+  "homepage": "http://wdmg.com.ua/",
+  "license": "MIT"
+}
