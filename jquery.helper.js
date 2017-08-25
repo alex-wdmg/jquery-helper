@@ -83,6 +83,49 @@ jQuery.fn.autoCurrying = function(number, titles, onlyends, debug) {
 	
 };
 
+
+jQuery.fn.cloneItems = function(selector, num, debug) {
+	var $elem = jQuery(this),
+		num = (num) ? num : 2,
+		debug = (debug) ? true : false;
+
+		$elem.find(selector).each(function () {
+			var $item = $(this);
+			for (var i = 1; i < num; i++) {
+				$item.after($(this).clone());
+			}
+		});
+	
+		if(debug)
+			console.log($elem);
+	
+		return $elem;
+};
+
+
+jQuery.fn.splitClone = function(selector, num, debug) {
+	var $elem = jQuery(this),
+		num = (num) ? num : 2,
+		debug = (debug) ? true : false;
+
+		$elem.find(selector).each(function () {
+			var $item = $(this);
+			for (var i = 1; i < num; i++) {
+				$item = $item.next();
+				if (!$item.length) {
+					$item = $(this).siblings(':first');
+				}
+				$item.children(':first-child').clone().appendTo($(this));
+			}
+		});
+	
+		if(debug)
+			console.log($elem);
+	
+		return $elem;
+};
+
+
 jQuery.fn.detectCollisions = function(selector, debug) {
 	var $elem = jQuery(this),
     	$target = jQuery(selector),
