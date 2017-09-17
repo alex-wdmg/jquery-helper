@@ -44,8 +44,50 @@ jQuery.fn.isEmpty = function() {
     return !jQuery.trim(this.html());
 };
 
+(function($) {
+	$.fn.horizontalScroll = function (amount, mixin) {
+		mixin = mixin || false;
+		amount = amount || 120;
+		$(this).bind("DOMMouseScroll mousewheel", function (event) {
+			var oEvent = event.originalEvent, 
+				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta, 
+				position = $(this).scrollLeft();
+			position += direction > 0 ? -amount : amount;
+			$(this).scrollLeft(position);
+
+			if(mixin && position == ($(this).scrollLeft() + amount))
+				return;
+			else if(mixin && position == -(amount))
+				return;
+			else
+				event.preventDefault();
+		});
+	}
+})(jQuery);
+
 jQuery.fn.outerHtml = function() {
-    return $('<div />').append($(this).clone()).html();
+    return jQuery('<div />').append(jQuery(this).clone()).html();
+};
+
+jQuery.fn.readingTime = function(amount, debug) {
+    var post = this[0],
+		amount = jQuery(amount)[0] || 120,
+		debug = (debug) ? true : false,
+		estimated_time;
+		
+		var words = jQuery(post).text().toString().replace(/\r\n?|\n/g, ' ').replace(/ {2,}/g, ' ').replace(/^ /, '').replace(/ $/, '').split(' ').length;
+		var minutes = Math.floor(words / amount);
+		var seconds = Math.floor(words % amount / (amount / 60));
+
+		if (1 <= minutes)
+			estimated_time = minutes + ' minute' + (minutes == 1 ? '' : 's') + ', ' + seconds + ' second' + (seconds == 1 ? '' : 's');
+		else
+			estimated_time = minutes + ' second' + (minutes == 1 ? '' : 's');
+		
+		if(debug)
+			console.log('readingTime() words: ' + words + ', reading by' + estimated_time);
+
+		return estimated_time;
 };
 
 var declOfNum = (function() {
