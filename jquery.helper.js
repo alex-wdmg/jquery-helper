@@ -44,6 +44,35 @@ jQuery.fn.isEmpty = function() {
     return !jQuery.trim(this.html());
 };
 
+(function() {
+	this.uniqID = function (prefix, entropy, numeric, debug) {
+		var prefix = prefix || '',
+			entropy = entropy || false,
+			numeric = numeric || false,
+			debug = debug || false,
+			result;
+
+		this.seed = function (s, w) {
+			s = parseInt(s, 10).toString(16);
+			return w < s.length ? s.slice(s.length - w) : 
+			(w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
+		};
+		
+		if(numeric)
+			result = prefix + (String.fromCharCode(Math.floor(Math.random() * 11)) + Math.floor(Math.random() * 1000000)).trim();
+		else
+			result = prefix + (this.seed(parseInt((new Date().getTime() / 1000), 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5)).trim();
+		
+		if (entropy)
+			result += (Math.random() * 10).toFixed(8).toString();
+
+		if(debug)
+			console.log('uniqID: '+result);
+		
+		return result;
+	};
+})();
+
 (function($) {
 	$.fn.horizontalScroll = function (amount, mixin) {
 		mixin = mixin || false;
