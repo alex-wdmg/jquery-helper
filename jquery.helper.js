@@ -45,6 +45,25 @@ jQuery.fn.isEmpty = function() {
 };
 
 (function() {
+	this.leadZero = function (number, period, debug) {
+		var number = number || false,
+			period = period || 10,
+			debug = debug || false,
+			result;
+		
+		if(number)
+			result = (parseInt(number) < parseInt(period) ? '0' : '') + number;
+		else
+			result = number;
+		
+		if(debug)
+			console.log('leadZero: '+result);
+		
+		return result;
+	};
+})();
+
+(function() {
 	this.uniqID = function (prefix, entropy, numeric, debug) {
 		var prefix = prefix || '',
 			entropy = entropy || false,
