@@ -46,15 +46,12 @@ jQuery.fn.isEmpty = function() {
 
 (function() {
 	this.leadZero = function (number, period, debug) {
-		var number = number || false,
+		var number = number || 0,
 			period = period || 10,
 			debug = debug || false,
 			result;
 		
-		if(number)
-			result = (parseInt(number) < parseInt(period) ? '0' : '') + number;
-		else
-			result = number;
+		result = (parseInt(number) < parseInt(period) ? '0' : '') + number;
 		
 		if(debug)
 			console.log('leadZero: '+result);
