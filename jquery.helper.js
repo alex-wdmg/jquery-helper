@@ -95,52 +95,56 @@ jQuery.fn.isEmpty = function() {
 		var amount = amount || 120,
 			soft = soft || false,
 			mixin = mixin || false,
-			debug = debug || false;
+			debug = debug || false,
+			inViewport = false;
 		
-		$(this).bind("DOMMouseScroll mousewheel", function (event) {
-			var oEvent = event.originalEvent, 
-				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
-				scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.documentElement.getBoundingClientRect().top,
-				position = $(this).scrollLeft();
-			position += direction > 0 ? -amount : amount;
-			$(this).scrollLeft(position);
-
-			if(soft) {
-				var scrollTop = 0;
+		if(soft) {
+			$(window).on('scroll resize', function () {
+				var scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.documentElement.getBoundingClientRect().top;
 				var topPosition = Math.floor($(this).offset().top);
 				var bottomPosition = Math.floor($(this).offset().top + $(this).height());
 				var topOffset = Math.floor(scrollTop + ($(window).height() * (soft / 100)));
 				var bottomOffset = Math.floor(scrollTop + ($(window).height() - ($(window).height() * (soft / 100)) - $(this).height()));
 				
 				if(debug) {
-					console.log('topPosition: '+topPosition);
-					console.log('topOffset: '+topOffset);
-					console.log('bottomPosition: '+bottomPosition);
-					console.log('bottomOffset: '+bottomOffset);
+					console.log('horizontalScroll topPosition: '+topPosition);
+					console.log('horizontalScroll topOffset: '+topOffset);
+					console.log('horizontalScroll bottomPosition: '+bottomPosition);
+					console.log('horizontalScroll bottomOffset: '+bottomOffset);
 				}
-				
+
 				if(topOffset >= topPosition && bottomOffset < bottomPosition) {
 					
-					if(mixin && position == ($(this).scrollLeft() + amount))
-						return;
-					else if(mixin && position == -(amount))
-						return;
-					else
-						event.preventDefault();
+					if(debug)
+						console.log('horizontalScroll: element enter in viewport');
 					
+					inViewport = true;
 				} else {
-					event.preventDefault();
+					
+					if(inViewport && debug)
+						console.log('horizontalScroll: element alive viewport');
+					
+					inViewport = false;
 				}
-			} else {
-				
-				if(mixin && position == ($(this).scrollLeft() + amount))
-					return;
-				else if(mixin && position == -(amount))
-					return;
-				else
-					event.preventDefault();
-				
-			}
+			});
+		} else {
+			inViewport = true;
+		}
+		
+		$(this).bind("DOMMouseScroll mousewheel", function (event) {
+			var oEvent = event.originalEvent, 
+				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
+				position = $(this).scrollLeft();
+			position += direction > 0 ? -amount : amount;
+			$(this).scrollLeft(position);
+
+			if(mixin && position == ($(this).scrollLeft() + amount) && inViewport)
+				return;
+			else if(mixin && position == -(amount) && inViewport)
+				return;
+			else
+				event.preventDefault();
+			
 		});
 	}
 })(jQuery);
