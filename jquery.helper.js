@@ -92,7 +92,8 @@ jQuery.fn.isEmpty = function() {
 (function($) {
 	$.fn.horizontalScroll = function (amount, soft, mixin, debug) {
 		
-		var amount = amount || 120,
+    	var $elem = $(this),
+			amount = amount || 120,
 			soft = soft || false,
 			mixin = mixin || false,
 			debug = debug || false,
@@ -101,10 +102,10 @@ jQuery.fn.isEmpty = function() {
 		if(soft) {
 			$(window).on('scroll resize', function () {
 				var scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.documentElement.getBoundingClientRect().top;
-				var topPosition = Math.floor($(this).offset().top);
-				var bottomPosition = Math.floor($(this).offset().top + $(this).height());
+				var topPosition = Math.floor($elem.offset().top);
+				var bottomPosition = Math.floor($elem.offset().top + $elem.height());
 				var topOffset = Math.floor(scrollTop + ($(window).height() * (soft / 100)));
-				var bottomOffset = Math.floor(scrollTop + ($(window).height() - ($(window).height() * (soft / 100)) - $(this).height()));
+				var bottomOffset = Math.floor(scrollTop + ($(window).height() - ($(window).height() * (soft / 100)) - $elem.height()));
 				
 				if(debug) {
 					console.log('horizontalScroll topPosition: '+topPosition);
