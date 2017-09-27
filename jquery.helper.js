@@ -90,62 +90,22 @@ jQuery.fn.isEmpty = function() {
 })();
 
 (function($) {
-	$.fn.horizontalScroll = function (amount, soft, mixin, debug) {
-		
-    	var $elem = $(this),
-			amount = amount || 120,
-			soft = soft || false,
-			mixin = mixin || false,
-			debug = debug || false,
-			inViewport = false;
-		
-		if(soft) {
-			$(window).on('scroll resize', function () {
-				var scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.documentElement.getBoundingClientRect().top;
-				var topPosition = Math.floor($elem.offset().top);
-				var bottomPosition = Math.floor($elem.offset().top + $elem.height());
-				var topOffset = Math.floor(scrollTop + ($(window).height() * (soft / 100)));
-				var bottomOffset = Math.floor(scrollTop + ($(window).height() - ($(window).height() * (soft / 100)) - $elem.height()));
-				
-				if(debug) {
-					console.log('horizontalScroll topPosition: '+topPosition);
-					console.log('horizontalScroll topOffset: '+topOffset);
-					console.log('horizontalScroll bottomPosition: '+bottomPosition);
-					console.log('horizontalScroll bottomOffset: '+bottomOffset);
-				}
-
-				if(topOffset >= topPosition && bottomOffset < bottomPosition) {
-					
-					if(debug)
-						console.log('horizontalScroll: element enter in viewport');
-					
-					inViewport = true;
-				} else {
-					
-					if(inViewport && debug)
-						console.log('horizontalScroll: element alive viewport');
-					
-					inViewport = false;
-				}
-			});
-		} else {
-			inViewport = true;
-		}
-		
+	$.fn.horizontalScroll = function (amount, mixin) {
+		mixin = mixin || false;
+		amount = amount || 120;
 		$(this).bind("DOMMouseScroll mousewheel", function (event) {
 			var oEvent = event.originalEvent, 
-				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
+				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta, 
 				position = $(this).scrollLeft();
 			position += direction > 0 ? -amount : amount;
 			$(this).scrollLeft(position);
 
-			if(mixin && position == ($(this).scrollLeft() + amount) && inViewport)
+			if(mixin && position == ($(this).scrollLeft() + amount))
 				return;
-			else if(mixin && position == -(amount) && inViewport)
+			else if(mixin && position == -(amount))
 				return;
 			else
 				event.preventDefault();
-			
 		});
 	}
 })(jQuery);
