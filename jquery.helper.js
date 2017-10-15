@@ -359,3 +359,77 @@ function locationHash(param) {
 	}
 	return vars;
 }
+
+/* jQuery.browser */
+var matched, browser;
+jQuery.uaMatch = function(ua) {
+    ua = ua.toLowerCase();
+    var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+        /(webkit)[ \/]([\w.]+)/.exec(ua) ||
+        /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+        /(msie) ([\w.]+)/.exec(ua) ||
+        ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+        [];
+    return {
+        browser: match[ 1 ] || "",
+        version: match[ 2 ] || "0"
+    };
+};
+matched = jQuery.uaMatch( navigator.userAgent );
+browser = {};
+if (matched.browser) {
+    browser[matched.browser] = true;
+    browser.version = matched.version;
+}
+
+// Chrome is Webkit, but Webkit is also Safari.
+if (browser.chrome) {
+    browser.webkit = true;
+} else if (browser.webkit) {
+    browser.safari = true;
+}
+jQuery.browser = browser;
+
+
+// Smooth scroll plugin
+function smoothScroll() {
+
+	if (window.addEventListener)
+		window.addEventListener('DOMMouseScroll', wheel, false);
+
+	window.onmousewheel = document.onmousewheel = wheel;
+
+	var hb = {
+		sTop: 0,
+		sDelta: 0
+	};
+
+	function wheel(event) {
+
+		var distance = jQuery.browser.webkit ? 60 : 120;
+		if (event.wheelDelta)
+			delta = event.wheelDelta / 120;
+		else if (event.detail)
+			delta = -event.detail / 3;
+
+		hb.sTop = jQuery(window).scrollTop();
+		hb.sDelta = hb.sDelta + delta * distance;
+
+		jQuery(hb).stop().animate({
+			sTop: jQuery(window).scrollTop() - hb.sDelta,
+			sDelta: 0
+		}, {
+			duration: 200,
+			easing: 'linear',
+			step: function(now, ex) {
+				if (ex.prop == 'sTop') jQuery('html, body').scrollTop(now)
+			},
+		});
+
+		if (event.preventDefault)
+			event.preventDefault();
+
+		event.returnValue = false
+	}
+
+}
