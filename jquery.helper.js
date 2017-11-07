@@ -44,6 +44,14 @@ jQuery.fn.isEmpty = function() {
     return !jQuery.trim(this.html());
 };
 
+jQuery.fn.size = function() {
+    var length = jQuery(this).length;
+	if (length)
+    	return length;
+	else
+		return 0;
+};
+
 (function() {
 	this.leadZero = function (number, period, debug) {
 		var number = number || 0,
