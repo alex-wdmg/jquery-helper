@@ -30,6 +30,18 @@ jQuery.fn.swap = function(b) {
     return this.pushStack( stack );
 };
 
+jQuery.fn.viewport = function() {
+    var e = window, a = 'inner';
+    if (!('innerWidth' in window)) {
+        a = 'client';
+        e = document.documentElement || document.body;
+    }
+    return {
+		width: e[a+'Width'],
+		height: e[a+'Height']
+	};
+}
+
 jQuery.fn.getStyle = function(elem, prop, debug) {
 	var value = jQuery(elem).css(prop);
 	var debug = (debug) ? true : false;
