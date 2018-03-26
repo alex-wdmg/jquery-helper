@@ -352,6 +352,27 @@ jQuery.fn.splitByHeight = function(selector, destination, offset, outer, debug) 
 	return this;
 };
 
+jQuery.fn.maxHeight = function(isouter, debug) {
+	var isouter = (isouter) ? true : false;
+	var debug = (debug) ? true : false;
+    var height = 0;
+    this.each(function() {
+        
+        if(isouter)
+            var block_height = $(this).outerHeight();
+        else
+            var block_height = $(this).height();
+        
+        if(block_height > height)
+            height = block_height;
+            
+    });
+    
+	if(debug)
+		console.log('Max height of elements: '+height);
+    
+    return height;
+}
 
 function readCookie(name) {
     var cookies = document.cookie.split('; '),

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 1.4.0
+
+* Release March 26, 2018
+
 ### 1.3.0
 
 * Release Feb 20, 2018
