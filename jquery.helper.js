@@ -80,6 +80,47 @@ jQuery.fn.size = function() {
 	};
 })();
 
+(function($) {
+	var options = {
+		groups: 3,
+		classname: ".item",
+		find_elem: ".sub-item",
+		min: 1
+	};
+	$.fn.autoGroup = function (custom) {
+		var options = $.extend({}, options, custom);
+		return this.each(function () {
+			var elements = $(this).find(options.find_elem);
+			var count = elements.length;
+			
+			if (count > 0) {
+				
+				var min = Math.ceil(count / options.groups);
+				min < options.min && (min = options.min);
+				
+				var current = 0;
+				var step = min;
+				
+				for (i = 0; i < options.groups; i++) {
+					elements.slice(current, step).wrapAll(i + 1 == options.groups ? '<div class="' + options.classname + ' last" />' : '<div class="' + options.classname + '" />');
+					current += min;
+					step += min;
+				}
+			}
+		});
+	};
+})(jQuery);
+
+jQuery.fn.nextOrFirst = function(selector){
+    var next = this.next(selector);
+    return (next.length) ? next : this.prevAll(selector).last();
+};
+
+jQuery.fn.prevOrLast = function(selector){
+    var prev = this.prev(selector);
+    return (prev.length) ? prev : this.nextAll(selector).last();
+};
+
 (function() {
 	this.uniqID = function (prefix, entropy, numeric, debug) {
 		var prefix = prefix || '',
