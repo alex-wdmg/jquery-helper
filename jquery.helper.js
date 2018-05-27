@@ -1,4 +1,4 @@
-/* Helper.js v1.3.0 */
+/* Helper.js v1.5.0 */
 
 (function($) {
     $.fn.preLoadImages = function(cb) {
