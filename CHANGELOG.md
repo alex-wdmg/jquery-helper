@@ -1,6 +1,12 @@
 Changelog
 =========
 
+### 1.5.1
+
+* Release Jun 03, 2018
+
+Add countUp function, simple jquery counter.
+
 ### 1.5.0
 
 * Release May 27, 2018

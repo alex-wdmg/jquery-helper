@@ -1,4 +1,4 @@
-/* Helper.js v1.5.0 */
+/* Helper.js v1.5.1 */
 
 (function($) {
     $.fn.preLoadImages = function(cb) {
@@ -98,20 +98,23 @@ jQuery.fn.size = function() {
 })();
 
 (function($) {
-	var options = {
+	var defaults = {
 		groups: 3,
 		classname: ".item",
 		find_elem: ".sub-item",
 		min: 1
 	};
-	$.fn.autoGroup = function (custom) {
-		var options = $.extend({}, options, custom);
+	$.fn.autoGroup = function (custom, debug) {
+		var debug = debug || false,
+		var options = $.extend({}, defaults, custom);
 		return this.each(function () {
 			var elements = $(this).find(options.find_elem);
 			var count = elements.length;
 			
+			if(debug)
+				console.log('autoGroup count: '+count);
+			
 			if (count > 0) {
-				
 				var min = Math.ceil(count / options.groups);
 				min < options.min && (min = options.min);
 				
@@ -123,6 +126,8 @@ jQuery.fn.size = function() {
 					current += min;
 					step += min;
 				}
+			} else if(debug) {
+				console.log('autoGroup: no have child elements for group.');
 			}
 		});
 	};
@@ -137,6 +142,47 @@ jQuery.fn.prevOrLast = function(selector){
     var prev = this.prev(selector);
     return (prev.length) ? prev : this.nextAll(selector).last();
 };
+
+(function($) {
+	$.fn.countUp = function(custom, debug) {
+		var debug = debug || false,
+		var options = $.extend({}, $.fn.countUp.defaults, custom);
+		return this.each(function () {
+			var _this = $(this);
+			var loop = 0,
+				current = 0,
+				value = parseInt(_this.text()),
+				loops = Math.ceil(options.time / options.interval),
+				increment = value / loops;
+
+			if(value > 0) {
+				if(debug)
+					console.log('countUp start of lops, count: '+loops);
+
+				var intervalId = setInterval(function() {
+					if (loop < loops) {
+						current = current += increment;
+						_this.text(Math.round(current));
+					} else {
+						clearInterval(intervalId);
+						_this.text(value);
+
+						if(debug)
+							console.log('countUp end of lops, current: '+loop);
+
+					}
+					loop++;
+				}, options.interval);
+			} else if(debug) {
+				console.log('countUp: element no have int value.');
+			}
+		});
+	};
+	$.fn.countUp.defaults = {
+		interval: 100,
+		time: 3000
+	};
+})(jQuery);
 
 (function() {
 	this.uniqID = function (prefix, entropy, numeric, debug) {
