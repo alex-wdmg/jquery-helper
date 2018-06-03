@@ -5,7 +5,7 @@ Changelog
 
 * Release Jun 03, 2018
 
-Add countUp function, simple jquery counter.
+Add countUp and countDown functions, simple jquery counter.
 
 ### 1.5.0
 

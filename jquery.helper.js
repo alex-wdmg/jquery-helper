@@ -105,7 +105,7 @@ jQuery.fn.size = function() {
 		min: 1
 	};
 	$.fn.autoGroup = function (custom, debug) {
-		var debug = debug || false,
+		var debug = debug || false;
 		var options = $.extend({}, defaults, custom);
 		return this.each(function () {
 			var elements = $(this).find(options.find_elem);
@@ -145,7 +145,7 @@ jQuery.fn.prevOrLast = function(selector){
 
 (function($) {
 	$.fn.countUp = function(custom, debug) {
-		var debug = debug || false,
+		var debug = debug || false;
 		var options = $.extend({}, $.fn.countUp.defaults, custom);
 		return this.each(function () {
 			var _this = $(this);
@@ -161,7 +161,7 @@ jQuery.fn.prevOrLast = function(selector){
 
 				var intervalId = setInterval(function() {
 					if (loop < loops) {
-						current = current += increment;
+						current += increment;
 						_this.text(Math.round(current));
 					} else {
 						clearInterval(intervalId);
@@ -179,6 +179,49 @@ jQuery.fn.prevOrLast = function(selector){
 		});
 	};
 	$.fn.countUp.defaults = {
+		interval: 100,
+		time: 3000
+	};
+})(jQuery);
+
+(function($) {
+	$.fn.countDown = function(custom, debug) {
+		var debug = debug || false;
+		var options = $.extend({}, $.fn.countDown.defaults, custom);
+		return this.each(function () {
+			var _this = $(this);
+			var loop = 0,
+				current = 0,
+				value = parseInt(_this.text()),
+				loops = Math.ceil(options.time / options.interval),
+				increment = value / loops;
+
+			if(value > 0) {
+				if(debug)
+					console.log('countDown start of lops, count: '+loops);
+
+				current = value;
+				
+				var intervalId = setInterval(function() {
+					if (loop < loops) {
+						current -= increment;
+						_this.text(Math.round(current));
+					} else {
+						clearInterval(intervalId);
+						_this.text(0);
+
+						if(debug)
+							console.log('countDown end of lops, current: '+loop);
+
+					}
+					loop++;
+				}, options.interval);
+			} else if(debug) {
+				console.log('countDown: element no have int value.');
+			}
+		});
+	};
+	$.fn.countDown.defaults = {
 		interval: 100,
 		time: 3000
 	};
