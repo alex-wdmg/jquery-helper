@@ -30,22 +30,46 @@ jQuery.fn.swap = function(b) {
     return this.pushStack( stack );
 };
 
-jQuery.fn.isOnScreen = function() {
-	var window = $(window);
-	
-	var viewport = {
-		top: window.scrollTop(),
-		left: window.scrollLeft()
-	};
-	viewport.right = viewport.left + window.width();
-	viewport.bottom = viewport.top + window.height();
+(function($) {
+	$.fn.isInViewport = function(debug) {
+		var debug = (debug) ? true : false;
+		var $window = $(window);
+		
+		var _this = $(this);
+		if(!_this && debug) {
+			console.log('isOnScreen: element undefined.');
+			return false;
+		}
+		
 
-	var bounds = this.offset();
-	bounds.right = bounds.left + this.outerWidth();
-	bounds.bottom = bounds.top + this.outerHeight();
+		var viewport = {
+			top: ($window.scrollTop() || document.body.scrollTop || document.documentElement.scrollTop),
+			left: ($window.scrollLeft() || document.body.scrollLeft || document.documentElement.scrollLeft)
+		};
+		viewport.right = viewport.left + ($window.width() || Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.body.clientWidth, document.documentElement.clientWidth));
+		viewport.bottom = viewport.top + ($window.height() || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight));
+		
+		if(debug)
+			console.log('Viewport have bounds, top: '+viewport.top+', left: '+viewport.left+', right: '+viewport.right+', bottom: '+viewport.bottom);
 
-	return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-};
+		var bounds = {
+			top: Math.round(_this.offset().top),
+			left: Math.round(_this.offset().left),
+		};
+		bounds.right = Math.round(bounds.left + _this.outerWidth());
+		bounds.bottom = Math.round(bounds.top + _this.outerHeight());
+		
+		if(debug)
+			console.log('Element have bounds, top: '+bounds.top+', left: '+bounds.left+', right: '+bounds.right+', bottom: '+bounds.bottom);
+
+		var inviewport = !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
+		
+		if(debug)
+			console.log('Element in viewport: '+inviewport);
+		
+		return inviewport;
+	}
+})(jQuery);
 
 jQuery.fn.viewport = function() {
     var e = window, a = 'inner';

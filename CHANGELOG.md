@@ -6,6 +6,7 @@ Changelog
 * Release Jun 03, 2018
 
 Add countUp and countDown functions, simple jquery counter.
+Fix crossbrowsing and rename onScreen function to inVievPort.
 
 ### 1.5.0
 
