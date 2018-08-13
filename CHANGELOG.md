@@ -1,13 +1,18 @@
 Changelog
 =========
 
+### 1.6.1
+
+* Release Aug 14, 2018
+
+Added SVG and Flexbox checking support.
+
 ### 1.6.0
 
 * Release Aug 14, 2018
 
 Added textNotChild functions, that alike get text from element without childs.
 Added loadJSONP functions for loading and run json-callback by promise.
-Added SVG and Flexbox checking support.
 
 ### 1.5.2
 
