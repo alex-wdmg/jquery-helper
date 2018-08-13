@@ -1,6 +1,13 @@
 Changelog
 =========
 
+### 1.6.0
+
+* Release Aug 14, 2018
+
+Added textNotChild functions, that alike get text from element without childs.
+Added loadJSONP functions for loading and run json-callback by promise.
+
 ### 1.5.2
 
 * Release Jun 03, 2018

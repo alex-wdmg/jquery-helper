@@ -305,6 +305,31 @@ jQuery.fn.outerHtml = function() {
     return jQuery('<div />').append(jQuery(this).clone()).html();
 };
 
+(function($) {
+	function elementText(el, separator) {
+		var textContents = [];
+		for (var chld = el.firstChild; chld; chld = chld.nextSibling) {
+			
+			if (chld.nodeType == 3)
+				textContents.push(chld.nodeValue);
+			
+		}
+		return textContents.join(separator);
+	}
+	$.fn.textNotChild = function(elementSeparator, nodeSeparator) {
+		
+		if (arguments.length < 2)
+			nodeSeparator = "";
+		
+		if (arguments.length < 1)
+			elementSeparator = "";
+		
+		return $.map(this, function(el) {
+			return elementText(el, nodeSeparator);
+		}).join(elementSeparator);
+	}
+})(jQuery);
+
 jQuery.fn.readingTime = function(amount, debug) {
     var post = this[0],
 		amount = jQuery(amount)[0] || 120,
@@ -361,6 +386,55 @@ jQuery.fn.autoCurrying = function(number, titles, onlyends, debug) {
 	
 };
 
+var loadJSONP = (function(){
+	var unique = 0;
+	return function(url, callback, context) {
+		
+		var name = "_jsonp_" + unique++;
+		
+		if (url.match(/\?/))
+			url += "&callback="+name;
+		else
+			url += "?callback="+name;
+		
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = url;
+		
+		window[name] = function(data) {
+			callback.call((context || window), data);
+			document.getElementsByTagName('head')[0].removeChild(script);
+			script = null;
+			delete window[name];
+		};
+		
+		document.getElementsByTagName('head')[0].appendChild(script);
+	};
+})();
+
+const fetchJSONP = (unique => url =>
+	new Promise(rs => {
+		const script = document.createElement('script');
+		const name = `_jsonp_${unique++}`;
+
+		if (url.match(/\?/)) {
+			url += `&callback=${name}`;
+		} else {
+			url += `?callback=${name}`;
+		}
+
+		script.src = url;
+		window[name] = json => {
+		rs(new Response(JSON.stringify(json)));
+		script.remove();
+		delete window[name];
+		};
+
+		document.body.appendChild(script);
+	})
+)(0);
+
+
 
 jQuery.fn.cloneItems = function(selector, num, debug) {
 	var $elem = jQuery(this),
@@ -379,7 +453,6 @@ jQuery.fn.cloneItems = function(selector, num, debug) {
 	
 		return $elem;
 };
-
 
 jQuery.fn.splitClone = function(selector, num, debug) {
 	var $elem = jQuery(this),
@@ -402,7 +475,6 @@ jQuery.fn.splitClone = function(selector, num, debug) {
 	
 		return $elem;
 };
-
 
 jQuery.fn.detectCollisions = function(selector, debug) {
 	var $elem = jQuery(this),
