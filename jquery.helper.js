@@ -1,4 +1,4 @@
-/* Helper.js v1.5.2 */
+/* Helper.js v1.6.0 */
 
 (function($) {
     $.fn.preLoadImages = function(cb) {
@@ -434,7 +434,19 @@ const fetchJSONP = (unique => url =>
 	})
 )(0);
 
+jQuery.fn.checkSVG = function() {
+	if(document.createElementNS("http://www.w3.org/2000/svg", 'svg').createSVGRect !== undefined)
+		return jQuery(this).removeClass('no-svg');
+	else
+		return jQuery(this).addClass('no-flex');
+};
 
+jQuery.fn.checkFlexbox = function() {
+	if (('flexWrap' in document.documentElement.style) || ('WebkitFlexWrap' in document.documentElement.style) || ('msFlexWrap' in document.documentElement.style))
+		return jQuery(this).removeClass('no-flex');
+	else
+		return jQuery(this).addClass('no-flex');
+};
 
 jQuery.fn.cloneItems = function(selector, num, debug) {
 	var $elem = jQuery(this),
