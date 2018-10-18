@@ -34,13 +34,13 @@ jQuery.fn.swap = function(b) {
 	$.fn.isInViewport = function(debug) {
 		var debug = (debug) ? true : false;
 		var $window = $(window);
-		
+
 		var _this = $(this);
 		if(!_this && debug) {
 			console.log('isOnScreen: element undefined.');
 			return false;
 		}
-		
+
 
 		var viewport = {
 			top: ($window.scrollTop() || document.body.scrollTop || document.documentElement.scrollTop),
@@ -48,7 +48,7 @@ jQuery.fn.swap = function(b) {
 		};
 		viewport.right = viewport.left + ($window.width() || Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.body.clientWidth, document.documentElement.clientWidth));
 		viewport.bottom = viewport.top + ($window.height() || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight));
-		
+
 		if(debug)
 			console.log('Viewport have bounds, top: '+viewport.top+', left: '+viewport.left+', right: '+viewport.right+', bottom: '+viewport.bottom);
 
@@ -58,15 +58,15 @@ jQuery.fn.swap = function(b) {
 		};
 		bounds.right = Math.round(bounds.left + _this.outerWidth());
 		bounds.bottom = Math.round(bounds.top + _this.outerHeight());
-		
+
 		if(debug)
 			console.log('Element have bounds, top: '+bounds.top+', left: '+bounds.left+', right: '+bounds.right+', bottom: '+bounds.bottom);
 
 		var inviewport = !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
-		
+
 		if(debug)
 			console.log('Element in viewport: '+inviewport);
-		
+
 		return inviewport;
 	}
 })(jQuery);
@@ -86,15 +86,29 @@ jQuery.fn.viewport = function() {
 jQuery.fn.getStyle = function(elem, prop, debug) {
 	var value = jQuery(elem).css(prop);
 	var debug = (debug) ? true : false;
-	
+
 	if(debug)
 		console.log(prop+': '+value);
-	
+
     return this.css(prop, value);
 };
 
 jQuery.fn.isEmpty = function() {
     return !jQuery.trim(this.html());
+};
+
+jQuery.fn.id = function() {
+    if(this.attr('class'))
+        return "#"+jQuery.trim(this.attr('id'));
+    else
+        return null;
+};
+
+jQuery.fn.class = function() {
+    if(this.attr('class'))
+        return "."+this.attr('class').replace(/\s/g, ".");
+    else
+        return null;
 };
 
 jQuery.fn.size = function() {
@@ -111,12 +125,12 @@ jQuery.fn.size = function() {
 			period = period || 10,
 			debug = debug || false,
 			result;
-		
+
 		result = (parseInt(number) < parseInt(period) ? '0' : '') + number;
-		
+
 		if(debug)
 			console.log('leadZero: '+result);
-		
+
 		return result;
 	};
 })();
@@ -134,17 +148,17 @@ jQuery.fn.size = function() {
 		return this.each(function () {
 			var elements = $(this).find(options.find_elem);
 			var count = elements.length;
-			
+
 			if(debug)
 				console.log('autoGroup count: '+count);
-			
+
 			if (count > 0) {
 				var min = Math.ceil(count / options.groups);
 				min < options.min && (min = options.min);
-				
+
 				var current = 0;
 				var step = min;
-				
+
 				for (i = 0; i < options.groups; i++) {
 					elements.slice(current, step).wrapAll(i + 1 == options.groups ? '<div class="' + options.classname + ' last" />' : '<div class="' + options.classname + '" />');
 					current += min;
@@ -225,7 +239,7 @@ jQuery.fn.prevOrLast = function(selector){
 					console.log('countDown start of lops, count: '+loops);
 
 				current = value;
-				
+
 				var intervalId = setInterval(function() {
 					if (loop < loops) {
 						current -= increment;
@@ -261,21 +275,21 @@ jQuery.fn.prevOrLast = function(selector){
 
 		this.seed = function (s, w) {
 			s = parseInt(s, 10).toString(16);
-			return w < s.length ? s.slice(s.length - w) : 
+			return w < s.length ? s.slice(s.length - w) :
 			(w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
 		};
-		
+
 		if(numeric)
 			result = prefix + (String.fromCharCode(Math.floor(Math.random() * 11)) + Math.floor(Math.random() * 1000000)).trim();
 		else
 			result = prefix + (this.seed(parseInt((new Date().getTime() / 1000), 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5)).trim();
-		
+
 		if (entropy)
 			result += (Math.random() * 10).toFixed(8).toString();
 
 		if(debug)
 			console.log('uniqID: '+result);
-		
+
 		return result;
 	};
 })();
@@ -285,8 +299,8 @@ jQuery.fn.prevOrLast = function(selector){
 		mixin = mixin || false;
 		amount = amount || 120;
 		$(this).bind("DOMMouseScroll mousewheel", function (event) {
-			var oEvent = event.originalEvent, 
-				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta, 
+			var oEvent = event.originalEvent,
+				direction = oEvent.detail ? oEvent.detail * -amount : oEvent.wheelDelta,
 				position = $(this).scrollLeft();
 			position += direction > 0 ? -amount : amount;
 			$(this).scrollLeft(position);
@@ -309,21 +323,21 @@ jQuery.fn.outerHtml = function() {
 	function elementText(el, separator) {
 		var textContents = [];
 		for (var chld = el.firstChild; chld; chld = chld.nextSibling) {
-			
+
 			if (chld.nodeType == 3)
 				textContents.push(chld.nodeValue);
-			
+
 		}
 		return textContents.join(separator);
 	}
 	$.fn.textNotChild = function(elementSeparator, nodeSeparator) {
-		
+
 		if (arguments.length < 2)
 			nodeSeparator = "";
-		
+
 		if (arguments.length < 1)
 			elementSeparator = "";
-		
+
 		return $.map(this, function(el) {
 			return elementText(el, nodeSeparator);
 		}).join(elementSeparator);
@@ -335,7 +349,7 @@ jQuery.fn.readingTime = function(amount, debug) {
 		amount = jQuery(amount)[0] || 120,
 		debug = (debug) ? true : false,
 		estimated_time;
-		
+
 		var words = jQuery(post).text().toString().replace(/\r\n?|\n/g, ' ').replace(/ {2,}/g, ' ').replace(/^ /, '').replace(/ $/, '').split(' ').length;
 		var minutes = Math.floor(words / amount);
 		var seconds = Math.floor(words % amount / (amount / 60));
@@ -344,7 +358,7 @@ jQuery.fn.readingTime = function(amount, debug) {
 			estimated_time = minutes + ' minute' + (minutes == 1 ? '' : 's') + ', ' + seconds + ' second' + (seconds == 1 ? '' : 's');
 		else
 			estimated_time = minutes + ' second' + (minutes == 1 ? '' : 's');
-		
+
 		if(debug)
 			console.log('readingTime() words: ' + words + ', reading by' + estimated_time);
 
@@ -375,39 +389,39 @@ jQuery.fn.autoCurrying = function(number, titles, onlyends, debug) {
 		_titles = (titles) ? titles : false,
 		onlyends = (onlyends) ? true : false,
 		debug = (debug) ? true : false;
-	
+
 	if(debug)
 		console.log(_number +' '+  declOfNum(_titles, _number));
-	
+
 	if(onlyends)
     	return $elem.text(declOfNum(_titles, _number));
 	else
     	return $elem.text(_number +' '+  declOfNum(_titles, _number));
-	
+
 };
 
 var loadJSONP = (function(){
 	var unique = 0;
 	return function(url, callback, context) {
-		
+
 		var name = "_jsonp_" + unique++;
-		
+
 		if (url.match(/\?/))
 			url += "&callback="+name;
 		else
 			url += "?callback="+name;
-		
+
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
 		script.src = url;
-		
+
 		window[name] = function(data) {
 			callback.call((context || window), data);
 			document.getElementsByTagName('head')[0].removeChild(script);
 			script = null;
 			delete window[name];
 		};
-		
+
 		document.getElementsByTagName('head')[0].appendChild(script);
 	};
 })();
@@ -459,10 +473,10 @@ jQuery.fn.cloneItems = function(selector, num, debug) {
 				$item.after($(this).clone());
 			}
 		});
-	
+
 		if(debug)
 			console.log($elem);
-	
+
 		return $elem;
 };
 
@@ -481,10 +495,10 @@ jQuery.fn.splitClone = function(selector, num, debug) {
 				$item.children(':first-child').clone().appendTo($(this));
 			}
 		});
-	
+
 		if(debug)
 			console.log($elem);
-	
+
 		return $elem;
 };
 
@@ -492,7 +506,7 @@ jQuery.fn.detectCollisions = function(selector, debug) {
 	var $elem = jQuery(this),
     	$target = jQuery(selector),
 		debug = (debug) ? true : false;
-	
+
 	var c = {
 		offsetX1: $elem.offset().left,
 		offsetY1: $elem.offset().top,
@@ -537,18 +551,18 @@ jQuery.fn.splitByWidth = function(selector, destination, offset, outer, debug) {
 		console.log('Countainer width: '+countainerWidth);
 
 	$(this).find(selector).each(function() {
-		
+
 		var elementWidth = (outer) ? $(this).outerWidth(true) : $(this).width();
 		summaryWidth = summaryWidth + elementWidth;
 
 		if (summaryWidth >= countainerWidth) {
-			
+
 			if($destination)
 				$destination.append($(this).outerHtml());
 
 			if(debug)
 				console.log('Element out of container width and has been removed.');
-			
+
 			$(this).remove();
 		}
 
@@ -582,18 +596,18 @@ jQuery.fn.splitByHeight = function(selector, destination, offset, outer, debug) 
 		console.log('Countainer height: '+countainerHeight);
 
 	$(this).find(selector).each(function() {
-		
+
 		var elementHeight = (outer) ? $(this).outerHeight(true) : $(this).height();
 		summaryHeight = summaryHeight + elementHeight;
 
 		if (summaryHeight >= countainerHeight) {
-			
+
 			if($destination)
 				$destination.append($(this).outerHtml());
 
 			if(debug)
 				console.log('Element out of container height and has been removed.');
-			
+
 			$(this).remove();
 		}
 
@@ -612,32 +626,32 @@ jQuery.fn.maxHeight = function(isouter, debug) {
 	var debug = (debug) ? true : false;
     var height = 0;
     this.each(function() {
-        
+
         if(isouter)
             var block_height = $(this).outerHeight();
         else
             var block_height = $(this).height();
-        
+
         if(block_height > height)
             height = block_height;
-            
+
     });
-    
+
 	if(debug)
 		console.log('Max height of elements: '+height);
-    
+
     return height;
 }
 
 function readCookie(name) {
     var cookies = document.cookie.split('; '),
     vars = {}, indx, cookie;
-    
+
     for (indx = cookies.length - 1; indx >= 0; indx--) {
         cookie = cookies[indx].split('=');
         vars[cookie[0]] = cookie[1];
     }
-    
+
     return vars[name];
 }
 

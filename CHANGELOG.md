@@ -1,6 +1,12 @@
 Changelog
 =========
 
+### 1.6.2
+
+* Release Oct 18, 2018
+
+Added $.id() and $.class() functions for elements.
+
 ### 1.6.1
 
 * Release Aug 14, 2018

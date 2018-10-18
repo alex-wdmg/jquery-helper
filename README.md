@@ -1,4 +1,4 @@
-## jQuery helper (version 1.6.0)
+## jQuery helper (version 1.6.2)
 
 A jQuery helper functions and utilities that make jQuery better and save your time.
 
