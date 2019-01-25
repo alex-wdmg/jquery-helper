@@ -1,6 +1,12 @@
 Changelog
 =========
 
+### 1.6.3
+
+* Release Jan 25, 2019
+
+Added replaceAll() for strings and array's.
+
 ### 1.6.2
 
 * Release Oct 18, 2018

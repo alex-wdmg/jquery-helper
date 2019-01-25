@@ -20,6 +20,18 @@ String.prototype.trim = String.prototype.trim || function() {
     return this.replace(/^\s+/, '').replace(/\s+$/, '');
 };
 
+String.prototype.replaceAll = function(search, replace) {
+	var string = this;  
+	if (typeof search === "object") {
+		for (var i = 0; i < search.length; i++) {
+			string = string.replace(new RegExp(search[i], "g"), replace[i]);
+		}
+	} else if (typeof search === "string") {
+		string.replace(new RegExp(search, 'g'), replace);
+	}
+	return string;
+};
+
 jQuery.fn.swap = function(b) {
     b = jQuery(b)[0];
     var a = this[0],
