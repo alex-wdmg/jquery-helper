@@ -1,4 +1,4 @@
-/* Helper.js v1.6.1 */
+/* Helper.js v1.7.0 */
 
 (function($) {
     $.fn.preLoadImages = function(cb) {
@@ -395,11 +395,11 @@ var declOfNum = (function() {
     }
 })();
 
-jQuery.fn.autoCurrying = function(number, titles, onlyends, debug) {
+jQuery.fn.autoCurrying = function(number, titles, only_ends, debug) {
 	var $elem = jQuery(this),
 		_number = (number) ? number : false,
 		_titles = (titles) ? titles : false,
-		onlyends = (onlyends) ? true : false,
+		only_ends = (only_ends) ? true : false,
 		debug = (debug) ? true : false;
 
 	if(debug)
@@ -451,9 +451,9 @@ const fetchJSONP = (unique => url =>
 
 		script.src = url;
 		window[name] = json => {
-		rs(new Response(JSON.stringify(json)));
-		script.remove();
-		delete window[name];
+			rs(new Response(JSON.stringify(json)));
+			script.remove();
+			delete window[name];
 		};
 
 		document.body.appendChild(script);
@@ -464,7 +464,7 @@ jQuery.fn.checkSVG = function() {
 	if(document.createElementNS("http://www.w3.org/2000/svg", 'svg').createSVGRect !== undefined)
 		return jQuery(this).removeClass('no-svg');
 	else
-		return jQuery(this).addClass('no-flex');
+		return jQuery(this).addClass('no-svg');
 };
 
 jQuery.fn.checkFlexbox = function() {

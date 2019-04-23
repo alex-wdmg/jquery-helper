@@ -1,6 +1,13 @@
 Changelog
 =========
 
+### 1.7.0
+
+* Release Apr 23, 2019
+
+Bugfixes.
+Added Grunt for build and minify.
+
 ### 1.6.3
 
 * Release Jan 25, 2019
