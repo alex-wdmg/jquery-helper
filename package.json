@@ -1,6 +1,6 @@
 {
   "name": "jquery-helper",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "A jQuery helper functions and utilities that make jQuery better and save your time.",
   "homepage": "http://wdmg.com.ua",
   "author": "W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com>",
@@ -24,8 +24,5 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-contrib-watch": "^1.1.0"
-  },
-  "scripts": {
-    "postinstall": "grunt"
   }
 }
