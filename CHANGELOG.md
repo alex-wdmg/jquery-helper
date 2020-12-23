@@ -1,11 +1,22 @@
 Changelog
 =========
 
-### 1.7.0
+### 1.7.2
+
+* Release Dec 24, 2020
+
+Added getOS() function.
+
+### 1.7.1
 
 * Release Apr 23, 2019
 
 Bugfixes.
+
+### 1.7.0
+
+* Release Apr 23, 2019
+
 Added Grunt for build and minify.
 
 ### 1.6.3
